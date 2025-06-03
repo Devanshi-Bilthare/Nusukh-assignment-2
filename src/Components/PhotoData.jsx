@@ -67,7 +67,7 @@ const PhotoData = () => {
                 <RiSearch2Line onClick={searchSubmitHandler} className='text-[#AEB8B8] text-[18px]'/>
             </div>
 
-            <div className='flex gap-[20px] overflow-x-auto'>
+            <div className='flex gap-[20px] overflow-x-auto scrollbar-hidden'>
                 <div className='relative'>
                     <select className='border border-[#E0DEE8] bg-[#F5F4FF] text-[#040616] p-[12px] text-[15px] w-[157px] rounded-[18px] focus:outline-none appearance-none'>
                     <option value="" > Album</option>
