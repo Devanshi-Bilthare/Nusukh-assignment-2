@@ -11,15 +11,22 @@ const PhotoData = () => {
     const [currentPage,setCurrentPage] = useState(1)
     const entriesPerPage = 8
 
+    const [searchQuery,setSearchQuery] = useState("")
+    const [filteredUsers,setFilteredUsers] = useState()
+
     useEffect(() => {
         dispatch(getUserData())
     },[])
 
+    useEffect(() => {
+        setFilteredUsers(allUsers)
+    },[allUsers])
+
     const indexOfLastEntry = currentPage * entriesPerPage
     const indexOfFirstEntry = indexOfLastEntry - entriesPerPage
-    const currentEntries = allUsers?.slice(indexOfFirstEntry,indexOfLastEntry)
+    const currentEntries = filteredUsers?.slice(indexOfFirstEntry,indexOfLastEntry)
 
-    const totalPages = Math.ceil((allUsers?.length || 0)/entriesPerPage)
+    const totalPages = Math.ceil((filteredUsers?.length || 0)/entriesPerPage)
 
     const increasePageCount = () => {
         setCurrentPage(prev => Math.max(prev+1,totalPages))
@@ -29,12 +36,29 @@ const PhotoData = () => {
         setCurrentPage(prev => Math.max(prev-1,1))
     }
 
+    const searchChangeHandler = (e) => {
+        const value = e.target.value
+        setSearchQuery(value)
+        setCurrentPage(1)
+
+        if(value === ""){
+            setFilteredUsers(allUsers)
+        }
+    }
+
+    const searchSubmitHandler = () => {
+        const filtered = allUsers?.filter(user => 
+            user?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+        setFilteredUsers(filtered)
+    }
+
   return (
     <div>
         <div className='w-full mt-[41px] flex flex-col lg:flex-row gap-5 lg:gap-0 justify-between font-[500]'>
             <div className='w-full lg:w-[326px] ps-[18px] py-[11px] pe-[12px] text-[15px] border border-[#E0DEE8] rounded-[6px] flex justify-between items-center'>
-                <input type="text" placeholder='Search by name'  className='focus:outline-none placeholder-[#AEB8B8]' />
-                <RiSearch2Line className='text-[#AEB8B8] text-[18px]'/>
+                <input type="text" onChange={searchChangeHandler} onKeyDown={(e) => e.key === "Enter" && searchSubmitHandler()} placeholder='Search by name'  className='focus:outline-none placeholder-[#AEB8B8]' />
+                <RiSearch2Line onClick={searchSubmitHandler} className='text-[#AEB8B8] text-[18px]'/>
             </div>
 
             <div className='flex gap-[20px] overflow-x-auto'>
