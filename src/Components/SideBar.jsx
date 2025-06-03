@@ -16,7 +16,7 @@ const SideBar = () => {
                 <div key={item}>
                              <div className={`w-full h-[13px] ${active == item ? 'rounded-br-[100px]' : '' } bg-[#196C6C]`}></div>
          <div className='bg-[#196C6C]'>
-            <div className={`px-[30px] py-[20px] ${active == item ? 'text-[#196C6C] bg-white' : 'text-white'} rounded-l-[50px] flex items-center justify-between`} onClick={() => setActive(item)}>
+            <div className={`px-[30px] py-[20px] ${active == item ? 'text-[#196C6C] bg-white' : 'text-white'} rounded-l-[50px] flex items-center justify-between cursor-pointer`} onClick={() => setActive(item)}>
                 <span>{item}</span>
                 {(item === 'General Info.' || item === 'Team') && <FaChevronRight/>}
             </div>

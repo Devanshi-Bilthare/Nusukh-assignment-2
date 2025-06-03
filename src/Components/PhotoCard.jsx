@@ -2,9 +2,9 @@ import React from 'react'
 import ProfilePic from '../assets/profile.png'
 import { HiOutlineDotsVertical } from 'react-icons/hi'
 
-const PhotoCard = ({userData}) => {
+const PhotoCard = ({userData,btnId}) => {
   return (
-    <div className='relative xl:w-[16vw] md:w-[20vw] h-[277px] rounded-[50px] shadow-[0px_6px_20px_rgba(188,188,188,0.25)] text-center'>
+    <div style={{backgroundColor:btnId}} className={`relative xl:w-[16vw] md:w-[20vw] h-[277px] rounded-[50px] shadow-[0px_6px_20px_rgba(188,188,188,0.25)] text-center`}>
         <div className='absolute top-[30px] right-[20px] text-[#8697B4] text-[24px]'>
             <HiOutlineDotsVertical/>
         </div>

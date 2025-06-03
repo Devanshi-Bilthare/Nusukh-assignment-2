@@ -14,6 +14,8 @@ const PhotoData = () => {
     const [searchQuery,setSearchQuery] = useState("")
     const [filteredUsers,setFilteredUsers] = useState()
 
+    const [buttonId,setButtonId] = useState("white")
+
     useEffect(() => {
         dispatch(getUserData())
     },[])
@@ -53,6 +55,10 @@ const PhotoData = () => {
         setFilteredUsers(filtered)
     }
 
+    const buttonChangeHandler = (e) => {
+        setButtonId(e.target.value)
+    }
+
   return (
     <div>
         <div className='w-full mt-[41px] flex flex-col lg:flex-row gap-5 lg:gap-0 justify-between font-[500]'>
@@ -69,8 +75,10 @@ const PhotoData = () => {
                     <IoChevronDown className='absolute right-3 top-[16px]'/>
                 </div>
                 <div className='relative'>
-                    <select className='border border-[#E0DEE8] bg-[#F5F4FF] text-[#040616] p-[12px] text-[15px] w-[157px] rounded-[18px] focus:outline-none appearance-none'>
-                    <option value="" > Even</option>
+                    <select onChange={buttonChangeHandler} className='border border-[#E0DEE8] bg-[#F5F4FF] text-[#040616] p-[12px] text-[15px] w-[157px] rounded-[18px] focus:outline-none appearance-none'>
+                    <option value="white" className=''> Even</option>
+                    <option value="#F4E5BE" > Odd</option>
+                    <option value="#BCEAA0" > Prime</option>
                     </select>
                     <IoChevronDown className='absolute right-3 top-[16px]'/>
                 </div>
@@ -82,13 +90,13 @@ const PhotoData = () => {
         <div className="mt-[58px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-[35px]">
             {
                 currentEntries?.map(data => {
-                   return <PhotoCard userData={data} key={data.id}/>
+                   return <PhotoCard userData={data} key={data.id} btnId={buttonId}/>
                 })
             }
         </div>
 
         <div className='text-[14px] font-[400] text-[#040616] mt-[66px] flex items-center justify-between'>
-            <p className=''>Showing {currentEntries?.length} of {allUsers?.length} entries</p>
+            <p className=''>Showing {currentEntries?.length} of {filteredUsers?.length} entries</p>
             <div className='flex gap-[7px]'>
                 <button onClick={decreasePageCount} disabled={currentPage === 1} className='w-[35px] h-[35px] rounded-full border border-[#E9ECEF] text-[#8898AA] text-[30px] flex items-center justify-center' >
                     <RiArrowDropLeftLine/>

@@ -18,7 +18,7 @@ const NavBar = () => {
             <IoNotificationsOutline className='sm:text-[24px] text-[15px]' />
             <div className='sm:text-[15px] text-[12px] flex items-center sm:gap-[10px] lowercase'> <span>{user?.email.split('@')[0]}</span> <IoChevronDown onClick={() => setActive(!active)} /></div>
 
-            {active && <button className='absolute right-0 top-6 shadow-xl px-4 py-2 bg-white font-[400]' onClick={handleLogout}>Logout</button>}
+            {active && <button className='absolute right-0 top-6 shadow-xl px-4 py-2 bg-white font-[400] rounded-[10px] cursor-pointer' onClick={handleLogout}>Logout</button>}
         </div>
     </div>
   )
