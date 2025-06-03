@@ -1,4 +1,14 @@
-import { createAction, createSlice } from "@reduxjs/toolkit"
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { UserService } from "./UserService"
+
+export const getUserData = createAsyncThunk('all/users',async(thunkApi) => {
+    try{
+        return await UserService.GetUserData()
+
+    }catch(err){
+        return thunkApi.rejectWithValue(err)
+    }
+})
 
 const initialState = {
     user:JSON.parse(localStorage.getItem("user")) || null,
@@ -27,6 +37,20 @@ export const UserSlice = createSlice({
     },
     extraReducers:(builder) => {
         builder.addCase(resetState, () => initialState)
+        .addCase(getUserData.pending,(state)=>{
+            state.isLoading = true
+        })
+        .addCase(getUserData.fulfilled,(state,action)=>{
+            state.isLoading = false,
+            state.isSuccess = true,
+            state.allUsers = action.payload
+        })
+        .addCase(getUserData.rejected,(state) => {
+            state.isLoading = false
+            state.isError=true
+            state.isSuccess = false
+            state.allUsers = null
+        })
     }
 })
 

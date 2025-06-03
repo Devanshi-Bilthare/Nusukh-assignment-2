@@ -1,9 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoChevronDown } from 'react-icons/io5'
-import { RiSearch2Line } from 'react-icons/ri'
+import { RiArrowDropLeftLine, RiArrowDropRightLine, RiSearch2Line } from 'react-icons/ri'
 import PhotoCard from './PhotoCard'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserData } from '../features/user/UserSlice'
 
 const PhotoData = () => {
+    const dispatch = useDispatch()
+    const allUsers = useSelector(state => state.user?.allUsers)
+    const [currentPage,setCurrentPage] = useState(1)
+    const entriesPerPage = 8
+
+    useEffect(() => {
+        dispatch(getUserData())
+    },[])
+
+    const indexOfLastEntry = currentPage * entriesPerPage
+    const indexOfFirstEntry = indexOfLastEntry - entriesPerPage
+    const currentEntries = allUsers?.slice(indexOfFirstEntry,indexOfLastEntry)
+
+    const totalPages = Math.ceil((allUsers?.length || 0)/entriesPerPage)
+
+    const increasePageCount = () => {
+        setCurrentPage(prev => Math.max(prev+1,totalPages))
+    }
+
+    const decreasePageCount = () => {
+        setCurrentPage(prev => Math.max(prev-1,1))
+    }
+
   return (
     <div>
         <div className='w-full mt-[41px] flex flex-col lg:flex-row gap-5 lg:gap-0 justify-between font-[500]'>
@@ -31,13 +56,27 @@ const PhotoData = () => {
         </div>
 
         <div className="mt-[58px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-[35px]">
-  <PhotoCard />
-  <PhotoCard />
-  <PhotoCard />
-  <PhotoCard />
-  <PhotoCard />
-  <PhotoCard />
-</div>
+            {
+                currentEntries?.map(data => {
+                   return <PhotoCard userData={data} key={data.id}/>
+                })
+            }
+        </div>
+
+        <div className='text-[14px] font-[400] text-[#040616] mt-[66px] flex items-center justify-between'>
+            <p className=''>Showing {currentEntries?.length} of {allUsers?.length} entries</p>
+            <div className='flex gap-[7px]'>
+                <button onClick={decreasePageCount} disabled={currentPage === 1} className='w-[35px] h-[35px] rounded-full border border-[#E9ECEF] text-[#8898AA] text-[30px] flex items-center justify-center' >
+                    <RiArrowDropLeftLine/>
+                </button>
+                 <p className='w-[35px] h-[35px] rounded-full text-[white] flex items-center justify-center bg-[#196C6C]'>
+                    {currentPage}
+                </p>
+                <button onClick={increasePageCount} disabled={currentPage === totalPages} className='w-[35px] h-[35px] rounded-full border border-[#E9ECEF] text-[#8898AA] text-[30px] flex items-center justify-center'>
+                    <RiArrowDropRightLine/>
+                </button>
+            </div>
+        </div>
     </div>
   )
 }
