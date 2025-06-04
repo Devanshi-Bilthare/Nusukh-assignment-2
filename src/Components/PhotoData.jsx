@@ -76,9 +76,10 @@ const PhotoData = () => {
                 </div>
                 <div className='relative'>
                     <select onChange={buttonChangeHandler} className='border border-[#E0DEE8] bg-[#F5F4FF] text-[#040616] p-[12px] text-[15px] w-[157px] rounded-[18px] focus:outline-none appearance-none'>
-                    <option value="white" className=''> Even</option>
-                    <option value="#F4E5BE" > Odd</option>
-                    <option value="#BCEAA0" > Prime</option>
+                    <option value="All" className=''> All</option>
+                    <option value="EVEN" className=''> Even</option>
+                    <option value="ODD" > Odd</option>
+                    <option value="PRIME" > Prime</option>
                     </select>
                     <IoChevronDown className='absolute right-3 top-[16px]'/>
                 </div>
